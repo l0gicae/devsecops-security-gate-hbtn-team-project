@@ -1,0 +1,19 @@
+# Antigravity & IDE internal files
+.gemini/
+.agents/
+
+# Python Cache & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# Environment Variables & Secrets
+.env
+*.env.local
+
+# OS Generated
+.DS_Store
+Thumbs.db
