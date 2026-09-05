@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ DevSecOps Təhlükəsizlik Qapısı — Layihə Təqdimatı</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* ===========================================
+           VIEWPORT FITTING: MANDATORY BASE STYLES
+           =========================================== */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* Colors */
+            --bg-primary: #070a14;
+            --bg-card: rgba(15, 23, 42, 0.75);
+            --border-card: rgba(51, 65, 85, 0.6);
+            --accent-indigo: #6366f1;
+            --accent-cyan: #06b6d4;
+            --accent-emerald: #10b981;
+            --accent-rose: #f43f5e;
+            --accent-amber: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+
+            /* Responsive Typography with clamp() */
+            --title-size: clamp(1.6rem, 4.5vw, 3.2rem);
+            --h2-size: clamp(1.2rem, 3vw, 2.2rem);
+            --h3-size: clamp(0.95rem, 2vw, 1.4rem);
+            --body-size: clamp(0.75rem, 1.35vw, 1.05rem);
+            --small-size: clamp(0.65rem, 1vw, 0.85rem);
+
+            /* Spacing with clamp() */
+            --slide-padding: clamp(1rem, 3.5vw, 3rem);
+            --content-gap: clamp(0.5rem, 1.8vw, 1.5rem);
+            --element-gap: clamp(0.25rem, 1vw, 0.8rem);
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
+        }
+
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Slide Container */
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 40%),
+                        var(--bg-primary);
+        }
+
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 100%;
+            overflow: hidden;
+            padding: var(--slide-padding);
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-card);
+            border-radius: clamp(0.75rem, 1.5vw, 1.25rem);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* UI Elements */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: var(--small-size);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1px solid currentColor;
+        }
+
+        .badge-rose { color: var(--accent-rose); background: rgba(244, 63, 94, 0.12); border-color: rgba(244, 63, 94, 0.3); }
+        .badge-emerald { color: var(--accent-emerald); background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.3); }
+        .badge-indigo { color: var(--accent-indigo); background: rgba(99, 102, 241, 0.12); border-color: rgba(99, 102, 241, 0.3); }
+        .badge-cyan { color: var(--accent-cyan); background: rgba(6, 182, 212, 0.12); border-color: rgba(6, 182, 212, 0.3); }
+
+        /* Navigation Bar & Controls */
+        .nav-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-indigo));
+            z-index: 100;
+            transition: width 0.3s ease;
+        }
+
+        .nav-controls {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 50;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 0.8rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border-card);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.3rem;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .slide-counter {
+            font-size: var(--small-size);
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        /* Slide specific layouts */
+        .hero-title {
+            font-size: var(--title-size);
+            font-weight: 900;
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--content-gap);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--content-gap);
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--content-gap);
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slide.active .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        /* Speaker notes drawer */
+        #speaker-notes {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #0f172a;
+            border-top: 2px solid var(--accent-indigo);
+            padding: 1.5rem;
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            z-index: 999;
+            max-height: 30vh;
+            overflow-y: auto;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 850px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+        }
+
+        @media (max-height: 650px) {
+            :root {
+                --slide-padding: 0.75rem 1.5rem;
+                --content-gap: 0.6rem;
+            }
+            .hide-low-height {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div class="nav-progress" id="progress-bar"></div>
+
+    <!-- Navigation Controls -->
+    <div class="nav-controls">
+        <button class="nav-btn" onclick="prevSlide()" title="Əvvəlki Slayd (Sol ox)"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+        <span class="slide-counter mono" id="slide-number">01 / 08</span>
+        <button class="nav-btn" onclick="nextSlide()" title="Növbəti Slayd (Sağ ox)"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+        <button class="nav-btn" onclick="toggleFullscreen()" title="Tam Ekran (F)"><i data-lucide="maximize" class="w-4 h-4"></i></button>
+        <button class="nav-btn" onclick="toggleNotes()" title="Spiker Qeydləri (S)"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+    </div>
+
+    <!-- ====================================================================
+         SLIDE 1: COVER / BAŞLIQ SLAYDI
+         ==================================================================== -->
+    <section class="slide active" id="slide-1" data-notes="Salam münsiflər və dinləyicilər. Bu gün sizə proqram təminatı təhlükəsizliyini ən başdan təmin edən Avtomatlaşdırılmış DevSecOps Təhlükəsizlik Qapısı layihəsini təqdim edirik. 0 AZN xərc, tam avtomatlaşdırma və saniyəlik Telegram bildirişi.">
+        <div class="slide-content text-center items-center">
+            <div class="reveal delay-1">
+                <span class="badge badge-indigo">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i> Shift-Left CI/CD Pipeline Security
+                </span>
+            </div>
+            
+            <h1 class="hero-title mt-4 reveal delay-2" style="margin-top: 1rem; margin-bottom: 0.8rem;">
+                Avtomatlaşdırılmış DevSecOps<br>
+                <span style="background: linear-gradient(135deg, #6366f1, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Təhlükəsizlik Qapısı</span>
+            </h1>
+
+            <p class="reveal delay-3" style="font-size: var(--h3-size); color: var(--text-muted); max-width: 800px; margin-bottom: 2rem;">
+                Zəif kod və ya sızmış API açarlarının GitHub-a daxil olmasının anında qarşısını alan, PR-ı bloklayan və Telegram-a alert göndərən 0 AZN xərcli mühafizə sistemi.
+            </p>
+
+            <div class="grid-3 reveal delay-4" style="width: 100%; max-width: 900px;">
+                <div class="glass-card p-4 text-left border-l-4" style="border-left-color: var(--accent-rose); padding: 1rem;">
+                    <div class="mono" style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 800;">01. ANINDA BLOKLAMA</div>
+                    <div style="font-size: var(--body-size); font-weight: 700; margin-top: 0.3rem;">Zəif PR-ların Birləşməsinə Son</div>
+                </div>
+                <div class="glass-card p-4 text-left border-l-4" style="border-left-color: var(--accent-cyan); padding: 1rem;">
+                    <div class="mono" style="font-size: var(--small-size); color: var(--accent-cyan); font-weight: 800;">02. SƏNİYƏLİK TELEGRAM</div>
+                    <div style="font-size: var(--body-size); font-weight: 700; margin-top: 0.3rem;">Müəllif & Xəta ilə Canlı Alert</div>
+                </div>
+                <div class="glass-card p-4 text-left border-l-4" style="border-left-color: var(--accent-emerald); padding: 1rem;">
+                    <div class="mono" style="font-size: var(--small-size); color: var(--accent-emerald); font-weight: 800;">03. 0 AZN XƏRC</div>
+                    <div style="font-size: var(--body-size); font-weight: 700; margin-top: 0.3rem;">GitHub Actions & Açıq Mənbə</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 2: PROBLEM / REAL DÜNYA TƏHLÜKƏSİ
+         ==================================================================== -->
+    <section class="slide" id="slide-2" data-notes="Müasir proqramlaşdırmada təhlükəsizliyi kod yazılıb qurtardıqdan sonra yoxlamaq artıq gecdir. Sızmış 1 OpenAI açarı şirkətə minlərlə dollar ziyan vura bilər. SQL Injection isə məlumat bazasını tam ifşa edir.">
+        <div class="slide-content">
+            <span class="badge badge-rose reveal delay-1"><i data-lucide="alert-octagon" class="w-3 h-3"></i> Problem və Reallıq</span>
+            <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--h2-size); margin-bottom: 1.5rem;">
+                Təhlükəsizlik İstehsalata Çatandan Sonra Çox Gecdir!
+            </h2>
+
+            <div class="grid-2">
+                <div class="glass-card p-5 reveal delay-3" style="padding: 1.5rem; border-top: 3px solid var(--accent-rose);">
+                    <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <i data-lucide="key" class="w-6 h-6" style="color: var(--accent-rose);"></i>
+                        <h3 style="font-size: var(--h3-size); font-weight: 800;">Məxfi Açarların Sızması (Secret Leaks)</h3>
+                    </div>
+                    <p style="font-size: var(--body-size); color: var(--text-muted); line-height: 1.5;">
+                        Təcrübəsiz və ya tələsən proqramçılar OpenAI API key, AWS Token və ya DB şifrəsini koda yazıb GitHub-a push edirlər. Xakerlər botlarla GitHub-ı 2 saniyədə skan edib şirkəti qarət edir.
+                    </p>
+                </div>
+
+                <div class="glass-card p-5 reveal delay-4" style="padding: 1.5rem; border-top: 3px solid var(--accent-amber);">
+                    <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
+                        <i data-lucide="database" class="w-6 h-6" style="color: var(--accent-amber);"></i>
+                        <h3 style="font-size: var(--h3-size); font-weight: 800;">Kritik Kod Boşluqları (SAST Flaws)</h3>
+                    </div>
+                    <p style="font-size: var(--body-size); color: var(--text-muted); line-height: 1.5;">
+                        SQL Injection və `eval()` kimi zəifliklər canlı serverə çatdıqda bütöv verilənlər bazası silinir və ya serverdə uzaqdan kod icra olunur (RCE).
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass-card p-4 mt-4 reveal delay-4 text-center mono" style="margin-top: 1rem; padding: 1rem; border-color: rgba(244, 63, 94, 0.4); background: rgba(244, 63, 94, 0.08);">
+                🚨 Ənənəvi auditlər ayda 1 dəfə keçirilir. Bu müddətdə sistem artıq sındırılmış olur!
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 3: HƏLL / İŞ MEXANİZMİ
+         ==================================================================== -->
+    <section class="slide" id="slide-3" data-notes="Bizim sistem Shift-Left konsepsiyası ilə işləyir. Proqramçı kodu push edən anda GitHub Actions skaneri işə salır, xətanı tutur, PR-ı bloklayır və Telegram-a xəbərdarlıq atır.">
+        <div class="slide-content">
+            <span class="badge badge-emerald reveal delay-1"><i data-lucide="cpu" class="w-3 h-3"></i> Shift-Left Arxitekturası</span>
+            <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--h2-size); margin-bottom: 1.5rem;">
+                Sistem Necə İşləyir? (4 Mərhələli Avtomatlaşdırma)
+            </h2>
+
+            <div class="grid-4 reveal delay-3">
+                <div class="glass-card p-4 text-center" style="padding: 1.2rem;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">👨‍💻</div>
+                    <div class="badge badge-indigo mono" style="margin-bottom: 0.5rem;">1. Git Push / PR</div>
+                    <p style="font-size: var(--small-size); color: var(--text-muted);">Proqramçı kodu GitHub-a göndərir.</p>
+                </div>
+
+                <div class="glass-card p-4 text-center" style="padding: 1.2rem;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🛡️</div>
+                    <div class="badge badge-cyan mono" style="margin-bottom: 0.5rem;">2. CI/CD Skanı</div>
+                    <p style="font-size: var(--small-size); color: var(--text-muted);">SAST və Secret Skaneri 3 saniyədə yoxlayır.</p>
+                </div>
+
+                <div class="glass-card p-4 text-center" style="padding: 1.2rem;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">🛑</div>
+                    <div class="badge badge-rose mono" style="margin-bottom: 0.5rem;">3. PR Bloklandı</div>
+                    <p style="font-size: var(--small-size); color: var(--text-muted);">Kritik xəta aşkarlandıqda merge dayandırılır.</p>
+                </div>
+
+                <div class="glass-card p-4 text-center" style="padding: 1.2rem;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📱</div>
+                    <div class="badge badge-emerald mono" style="margin-bottom: 0.5rem;">4. Telegram Alert</div>
+                    <p style="font-size: var(--small-size); color: var(--text-muted);">Telefona müəllif, sətir və həll təlimatı çatır.</p>
+                </div>
+            </div>
+
+            <div class="glass-card p-4 mt-4 reveal delay-4" style="margin-top: 1.2rem; padding: 1rem; border-left: 4px solid var(--accent-emerald);">
+                <div style="font-size: var(--body-size); font-weight: 700; color: var(--accent-emerald);">✅ Nəticə: Təhlükəsiz olmayan heç bir kod parçası canlı prodakşna çata bilməz!</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 4: TEXNİKİ MÜHƏRRİKLƏR (UNDER THE HOOD)
+         ==================================================================== -->
+    <section class="slide" id="slide-4" data-notes="Müəllim wrapper sualı verərsə bu slayd ən böyük cavabımızdır. Biz sadəcə alət çağırmırıq. Xüsusi AST və Regex mühərriki, SHA-256 barmaq izi ilə deduplikasiya və CVSS v3.1 risk hesablama formulu yazmışıq.">
+        <div class="slide-content">
+            <span class="badge badge-indigo reveal delay-1"><i data-lucide="terminal" class="w-3 h-3"></i> Mühəndislik Payımız</span>
+            <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--h2-size); margin-bottom: 1.2rem;">
+                Kapronun Altında Nə Var? (Core Engineering)
+            </h2>
+
+            <div class="grid-3 reveal delay-3">
+                <div class="glass-card p-5" style="padding: 1.2rem;">
+                    <div class="mono" style="color: var(--accent-indigo); font-weight: 800; font-size: var(--small-size);">01. AST & REGEX ENGINE</div>
+                    <h3 style="font-size: var(--body-size); font-weight: 800; margin: 0.5rem 0;">Xüsusi Skaner Mühərriki</h3>
+                    <p style="font-size: var(--small-size); color: var(--text-muted); line-height: 1.4;">
+                        Python AST və Regex ilə SQLi, eval RCE, OS injection və 8 fərqli açar formatını (AWS, OpenAI, RSA) aşkarlayır.
+                    </p>
+                </div>
+
+                <div class="glass-card p-5" style="padding: 1.2rem;">
+                    <div class="mono" style="color: var(--accent-cyan); font-weight: 800; font-size: var(--small-size);">02. FINGERPRINT & DEDUP</div>
+                    <h3 style="font-size: var(--body-size); font-weight: 800; margin: 0.5rem 0;">Deduplikasiya Mühərriki</h3>
+                    <p style="font-size: var(--small-size); color: var(--text-muted); line-height: 1.4;">
+                        <code>SHA-256(file+line+cwe)</code> ilə eyni xətanı tutan fərqli alətlərin nəticələrini təmizləyir, təkrar xəbərdarlıqları süzür.
+                    </p>
+                </div>
+
+                <div class="glass-card p-5" style="padding: 1.2rem;">
+                    <div class="mono" style="color: var(--accent-emerald); font-weight: 800; font-size: var(--small-size);">03. CVSS v3.1 SCORING</div>
+                    <h3 style="font-size: var(--body-size); font-weight: 800; margin: 0.5rem 0;">Riyazi Risk Qiymətləndirməsi</h3>
+                    <p style="font-size: var(--small-size); color: var(--text-muted); line-height: 1.4;">
+                        Weighted Max Risk alqoritmi ilə layihəyə 0.0 - 10.0 arası real risk dərəcəsi verir.
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass-card p-3 mt-4 reveal delay-4 mono text-center" style="margin-top: 1rem; font-size: var(--small-size); background: rgba(15, 23, 42, 0.9);">
+                📂 <code>scripts/security_scanner.py</code> + <code>scripts/vapt_normalizer.py</code> + <code>scripts/remediation_engine.py</code>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 5: REMEDIATION & ROLLBACK (PRODAKŞN TƏHLÜKƏSİZLİYİ)
+         ==================================================================== -->
+    <section class="slide" id="slide-5" data-notes="Biz prodakşna toxunmuruq. Remediation dedikdə developer üçün git apply edilə bilən hazır .patch faylı və nəsə xarab olarsa 1 əmrlə geri qaytarmaq üçün Rollback planı hazırlayırıq.">
+        <div class="slide-content">
+            <span class="badge badge-cyan reveal delay-1"><i data-lucide="git-merge" class="w-3 h-3"></i> Təhlükəsiz Bərpa</span>
+            <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--h2-size); margin-bottom: 1.2rem;">
+                Deterministik Remediation və Rollback Zəmanəti
+            </h2>
+
+            <div class="grid-2 reveal delay-3">
+                <div class="glass-card p-5" style="padding: 1.5rem; border-left: 4px solid var(--accent-emerald);">
+                    <h3 style="font-size: var(--body-size); font-weight: 800; color: var(--accent-emerald); margin-bottom: 0.5rem;">
+                        ✅ 1. Deterministik Git Diff (.patch)
+                    </h3>
+                    <p style="font-size: var(--small-size); color: var(--text-muted); line-height: 1.5; margin-bottom: 0.8rem;">
+                        Sistem sadəcə tövsiyə mətni çıxarmır; developer-in 1 saniyədə tətbiq edə biləcəyi hazır patch faylı generasiya edir:
+                    </p>
+                    <code class="mono" style="display: block; background: #020617; padding: 0.6rem; border-radius: 0.5rem; font-size: 0.75rem; color: #a5f3fc;">
+                        git apply playbooks/patches/security_autofix.patch
+                    </code>
+                </div>
+
+                <div class="glass-card p-5" style="padding: 1.5rem; border-left: 4px solid var(--accent-amber);">
+                    <h3 style="font-size: var(--body-size); font-weight: 800; color: var(--accent-amber); margin-bottom: 0.5rem;">
+                        ↩️ 2. Rollback (Geri Qaytarma) Planı
+                    </h3>
+                    <p style="font-size: var(--small-size); color: var(--text-muted); line-height: 1.5; margin-bottom: 0.8rem;">
+                        Düzəliş asılılıqları pozarsa, Playbook-da göstərilən əmrlə dərhal əvvəlki stabil vəziyyətə qayıdılır:
+                    </p>
+                    <code class="mono" style="display: block; background: #020617; padding: 0.6rem; border-radius: 0.5rem; font-size: 0.75rem; color: #fde68a;">
+                        git checkout -- demo_vulnerabilities/vulnerable_sample.py
+                    </code>
+                </div>
+            </div>
+
+            <div class="glass-card p-3 mt-4 reveal delay-4 text-center" style="margin-top: 1rem;">
+                <span class="mono" style="font-size: var(--small-size); color: var(--text-muted);">
+                    🛡️ Qayda: Zero Unverified Production Mutation (Yoxlanılmamış heç bir kod canlıya getmir).
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 6: CANLI DEMO & SINGLE-PANE-OF-GLASS GUI
+         ==================================================================== -->
+    <section class="slide" id="slide-6" data-notes="Bizim layihənin çox güclü vizual interfeysi var. Single-pane-of-glass dashboard brauzerdə açılır, CVSS qrafiklərini göstərir və tək kliklə patch statusunu verir.">
+        <div class="slide-content">
+            <span class="badge badge-emerald reveal delay-1"><i data-lucide="layout-dashboard" class="w-3 h-3"></i> Vizual İdarəetmə Paneli</span>
+            <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--h2-size); margin-bottom: 1.2rem;">
+                Single-Pane-of-Glass VAPT Dashboard
+            </h2>
+
+            <div class="grid-2 reveal delay-3">
+                <div class="glass-card p-5 flex flex-col justify-center" style="padding: 1.5rem;">
+                    <h3 style="font-size: var(--body-size); font-weight: 800; color: var(--accent-cyan); margin-bottom: 0.8rem;">
+                        📊 Niyə 50 Səhifəlik PDF Yox, İnteraktiv Dashboard?
+                    </h3>
+                    <ul style="font-size: var(--small-size); color: var(--text-muted); line-height: 1.8; list-style: none;">
+                        <li>• 🔴 <b>CVSS v3.1 Risk Qrafiki:</b> Təhlükə səviyyəsinin vizual bölgüsü.</li>
+                        <li>• 🎯 <b>CWE & OWASP Xəritəsi:</b> Xətaların zəiflik kateqoriyaları üzrə analizi.</li>
+                        <li>• 🔍 <b>Unikal Barmaq İzi:</b> Hər xətanın faylı, sətri və həll kodu.</li>
+                        <li>• ⚡ <b>Birbaşa Patch Yükləmə:</b> Tək kliklə Playbook və Patch əldə etmək.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card p-4 text-center flex flex-col justify-center items-center" style="padding: 1.5rem; background: rgba(6, 182, 212, 0.05); border-color: rgba(6, 182, 212, 0.3);">
+                    <div style="font-size: 3rem; margin-bottom: 0.5rem;">🖥️</div>
+                    <div class="mono" style="font-size: var(--body-size); font-weight: 800; color: var(--accent-cyan);">dashboard/index.html</div>
+                    <p style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.5rem;">
+                        Heç bir server və ya lisenziya tələb etmədən birbaşa brauzerdə açılır!
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass-card p-3 mt-4 reveal delay-4 text-center mono" style="margin-top: 1rem; font-size: var(--small-size); color: var(--accent-emerald);">
+                🚀 Canlı nümayiş üçün tam hazırdır: Fail ➡️ Alert ➡️ Patch ➡️ Pass!
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 7: BAZAR VƏ RƏQABƏT (NİYƏ BU?)
+         ==================================================================== -->
+    <section class="slide" id="slide-7" data-notes="Müəllim Qualys, Nessus və ya DefectDojo varkən şirkət niyə sizi seçsin deyə soruşanda bu müqayisə cədvəli ən tutarlı arqumentimizdir.">
+        <div class="slide-content">
+            <span class="badge badge-indigo reveal delay-1"><i data-lucide="scale" class="w-3 h-3"></i> Dəyər Təklifi</span>
+            <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--h2-size); margin-bottom: 1.2rem;">
+                Bazar Rəqabəti: Niyə Bizim Sistem?
+            </h2>
+
+            <div class="glass-card overflow-hidden reveal delay-3" style="padding: 0;">
+                <table style="width: 100%; text-align: left; font-size: var(--small-size); border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: rgba(15, 23, 42, 0.9); border-bottom: 1px solid var(--border-card);">
+                            <th style="padding: 0.8rem 1rem;">Meyar</th>
+                            <th style="padding: 0.8rem 1rem; color: var(--accent-rose);">Enterprise (Qualys/Nessus)</th>
+                            <th style="padding: 0.8rem 1rem; color: var(--accent-amber);">DefectDojo</th>
+                            <th style="padding: 0.8rem 1rem; color: var(--accent-emerald); font-weight: 800;">Bizim Sistem</th>
+                        </tr>
+                    </thead>
+                    <tbody style="line-height: 1.6;">
+                        <tr style="border-bottom: 1px solid rgba(51, 65, 85, 0.3);">
+                            <td style="padding: 0.7rem 1rem; font-weight: 700;">Lisenziya Xərci</td>
+                            <td style="padding: 0.7rem 1rem; color: var(--accent-rose);">$15,000+ / il</td>
+                            <td style="padding: 0.7rem 1rem;">Ödənişli Hostinq</td>
+                            <td style="padding: 0.7rem 1rem; color: var(--accent-emerald); font-weight: 800;">0 AZN (Pulsuz)</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(51, 65, 85, 0.3);">
+                            <td style="padding: 0.7rem 1rem; font-weight: 700;">CI/CD PR Bloklama</td>
+                            <td style="padding: 0.7rem 1rem;">Ağır və Çətindir</td>
+                            <td style="padding: 0.7rem 1rem;">Yalnız passiv baza</td>
+                            <td style="padding: 0.7rem 1rem; color: var(--accent-emerald); font-weight: 800;">✅ Saniyəlik Qapı</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(51, 65, 85, 0.3);">
+                            <td style="padding: 0.7rem 1rem; font-weight: 700;">Telegram Alert Botu</td>
+                            <td style="padding: 0.7rem 1rem;">Xeyr (Email)</td>
+                            <td style="padding: 0.7rem 1rem;">Xüsusi plugin tələb edir</td>
+                            <td style="padding: 0.7rem 1rem; color: var(--accent-emerald); font-weight: 800;">✅ Real-vaxt Zəngin HTML</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.7rem 1rem; font-weight: 700;">Deterministik Patch</td>
+                            <td style="padding: 0.7rem 1rem;">Xeyr (Mətn tövsiyəsi)</td>
+                            <td style="padding: 0.7rem 1rem;">Xeyr</td>
+                            <td style="padding: 0.7rem 1rem; color: var(--accent-emerald); font-weight: 800;">✅ Hazır .patch diff</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====================================================================
+         SLIDE 8: KOMANDA & XÜLASƏ
+         ==================================================================== -->
+    <section class="slide" id="slide-8" data-notes="Diqqətiniz üçün təşəkkür edirik! Suallarınızı cavablandırmağa hazırıq.">
+        <div class="slide-content text-center items-center">
+            <span class="badge badge-emerald reveal delay-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Nəticə və Yekun</span>
+            <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--title-size); margin-bottom: 1.5rem;">
+                Təhlükəsiz Kod, Etibarlı Gələcək!
+            </h2>
+
+            <div class="grid-3 reveal delay-3" style="width: 100%; max-width: 900px; margin-bottom: 2rem;">
+                <div class="glass-card p-4" style="padding: 1.2rem;">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.3rem;">🛡️</div>
+                    <div style="font-size: var(--body-size); font-weight: 800;">Təhlükəsizlik Analitiki</div>
+                    <div style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3rem;">Regex & AST Qaydaları</div>
+                </div>
+                <div class="glass-card p-4" style="padding: 1.2rem;">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.3rem;">⚙️</div>
+                    <div style="font-size: var(--body-size); font-weight: 800;">DevOps Mühəndisi</div>
+                    <div style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3rem;">GitHub Actions CI/CD</div>
+                </div>
+                <div class="glass-card p-4" style="padding: 1.2rem;">
+                    <div style="font-size: 1.5rem; margin-bottom: 0.3rem;">📱</div>
+                    <div style="font-size: var(--body-size); font-weight: 800;">İnteqrasiya Tərtibatçısı</div>
+                    <div style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3rem;">Telegram Bot & Dashboard</div>
+                </div>
+            </div>
+
+            <div class="reveal delay-4">
+                <p style="font-size: var(--h3-size); color: var(--text-main); font-weight: 700; margin-bottom: 0.5rem;">
+                    Suallarınız üçün Təşəkkür Edirik!
+                </p>
+                <p class="mono" style="font-size: var(--small-size); color: var(--text-muted);">
+                    Q&A Rejimi Aktivdir • Canlı Demo Nümayişinə Hazırıq
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Speaker Notes Drawer -->
+    <div id="speaker-notes">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <strong style="color: var(--accent-indigo); text-transform: uppercase; font-size: 0.8rem;">🎙️ Spiker Qeydləri (Speaker Notes)</strong>
+            <button onclick="toggleNotes()" style="background: none; border: none; color: #94a3b8; cursor: pointer;">✕ Bağla</button>
+        </div>
+        <div id="notes-content" style="line-height: 1.6;"></div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressBar = document.getElementById('progress-bar');
+        const slideNumber = document.getElementById('slide-number');
+        const notesDrawer = document.getElementById('speaker-notes');
+        const notesContent = document.getElementById('notes-content');
+
+        function updateSlide(index) {
+            if (index < 0) index = 0;
+            if (index >= totalSlides) index = totalSlides - 1;
+
+            currentSlideIndex = index;
+            slides.forEach((s, idx) => {
+                s.classList.toggle('active', idx === index);
+            });
+
+            // Smooth scroll to active slide
+            slides[currentSlideIndex].scrollIntoView({ behavior: 'smooth' });
+
+            // Update Progress & Counter
+            const progress = ((currentSlideIndex + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+            slideNumber.textContent = `${String(currentSlideIndex + 1).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+
+            // Update Speaker Notes
+            const currentNotes = slides[currentSlideIndex].getAttribute('data-notes') || 'Qeyd yoxdur.';
+            notesContent.textContent = currentNotes;
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) updateSlide(currentSlideIndex + 1);
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) updateSlide(currentSlideIndex - 1);
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {});
+            } else {
+                document.exitFullscreen().catch(err => {});
+            }
+        }
+
+        function toggleNotes() {
+            const isVisible = notesDrawer.style.display === 'block';
+            notesDrawer.style.display = isVisible ? 'none' : 'block';
+        }
+
+        // Keyboard Controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                prevSlide();
+            } else if (e.key === 'Home') {
+                updateSlide(0);
+            } else if (e.key === 'End') {
+                updateSlide(totalSlides - 1);
+            } else if (e.key.toLowerCase() === 'f') {
+                toggleFullscreen();
+            } else if (e.key.toLowerCase() === 's') {
+                toggleNotes();
+            }
+        });
+
+        // Initialize
+        updateSlide(0);
+    </script>
+</body>
+</html>
