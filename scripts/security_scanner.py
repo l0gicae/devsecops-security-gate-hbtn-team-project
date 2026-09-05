@@ -132,7 +132,7 @@ SAST_PATTERNS = [
     }
 ]
 
-IGNORED_DIRS = {'.git', '.github', '__pycache__', 'node_modules', '.venv', 'venv', '.agents', 'env', 'presentation', 'playbooks', 'dashboard'}
+IGNORED_DIRS = {'.git', '.github', '__pycache__', 'node_modules', '.venv', 'venv', '.agents', 'env', 'presentation', 'playbooks', 'dashboard', 'demo_vulnerabilities'}
 IGNORED_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.gif', '.svg', '.pyc', '.zip', '.tar', '.gz', '.pdf', '.html', '.md', '.patch', '.json', '.txt'}
 
 class SecurityScanner:
