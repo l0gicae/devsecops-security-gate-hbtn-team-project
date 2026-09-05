@@ -92,7 +92,7 @@ SAST_PATTERNS = [
         "id": "SAST-001",
         "name": "SQL Injection Riski (String Interpolation in Query)",
         "severity": "CRITICAL",
-        "regex": r"(?i)(?:f[\"'].*?(?:SELECT|INSERT|UPDATE|DELETE|DROP)\s+.*?\{.*?\}|(?:execute|cursor\.execute|raw_query)\s*\(\s*f?[\"'].*?(?:SELECT|INSERT|UPDATE|DELETE|DROP).*?%|\+)",
+        "regex": r"(?i)(?:f[\"'].*?(?:SELECT|INSERT|UPDATE|DELETE|DROP)\s+.*?\{.*?\}|(?:execute|cursor\.execute|raw_query)\s*\(\s*f?[\"'].*?(?:SELECT|INSERT|UPDATE|DELETE|DROP).*?(?:%|\+))",
         "remediation": "Parametrləşdirilmiş sorğulardan (Parameterized Queries / ORM: cursor.execute('SELECT...', (val,))) istifadə edin."
     },
     {
@@ -128,12 +128,12 @@ SAST_PATTERNS = [
         "name": "Təhlükəli Bütün İnterfeyslərə Bağlanma (0.0.0.0)",
         "severity": "LOW",
         "regex": r"host\s*=\s*['\"]0\.0\.0\.0['\"]",
-        "remediation": "İstehsalatda yalnız icazə verilən IP ünvanlarına və ya 127.0.0.1 ünvanına bağlayın."
+        "remediation": "Production-da yalnız icazə verilən IP ünvanlarına və ya 127.0.0.1 ünvanına bağlayın."
     }
 ]
 
-IGNORED_DIRS = {'.git', '.github', '__pycache__', 'node_modules', '.venv', 'venv', '.agents', 'env'}
-IGNORED_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.gif', '.svg', '.pyc', '.zip', '.tar', '.gz', '.pdf'}
+IGNORED_DIRS = {'.git', '.github', '__pycache__', 'node_modules', '.venv', 'venv', '.agents', 'env', 'presentation', 'playbooks', 'dashboard'}
+IGNORED_EXTENSIONS = {'.png', '.jpg', '.jpeg', '.gif', '.svg', '.pyc', '.zip', '.tar', '.gz', '.pdf', '.html', '.md', '.patch', '.json', '.txt'}
 
 class SecurityScanner:
     def __init__(self, target_dir='.', output_file='security_report.json'):
@@ -158,8 +158,8 @@ class SecurityScanner:
             except ValueError:
                 pass
 
-        # Skanerin özünü və hesabat faylını yoxlamadan çıxarırıq
-        if file_path.name in ['security_scanner.py', 'security_report.json']:
+        # Skanerin öz alətlərini və hesabat fayllarını yoxlamadan çıxarırıq
+        if file_path.name in ['security_scanner.py', 'remediation_engine.py', 'vapt_normalizer.py', 'generate_dashboard.py', 'telegram_notifier.py', 'security_report.json', 'normalized_report.json']:
             return
 
         for line_no, line in enumerate(lines, 1):
@@ -261,8 +261,21 @@ class SecurityScanner:
         print(f"\n[i] Skan Statistikası:")
         print(f"  - Yoxlanılan fayl sayı: {self.files_scanned}")
         print(f"  - Ümumi tapıntılar:     {len(self.findings)}")
-        print(f"  - Critical: {critical_count} | High: {high_count} | Medium: {medium_count} | Low: {low_count}")
         print(f"  - Hesabat faylı:        {self.output_file}")
+
+        # Dashboard-u və normallaşdırılmış hesabatı avtomatik yeniləyirik
+        try:
+            scripts_dir = Path(__file__).resolve().parent
+            if str(scripts_dir) not in sys.path:
+                sys.path.insert(0, str(scripts_dir))
+            from vapt_normalizer import VAPTDataNormalizer
+            from generate_dashboard import generate_dashboard
+            normalizer = VAPTDataNormalizer(input_file=self.output_file, output_file='normalized_report.json')
+            normalizer.normalize_and_deduplicate()
+            generate_dashboard(report_path='normalized_report.json', output_path='dashboard/index.html')
+            print("  - VAPT Dashboard:       dashboard/index.html [Avtomatik Yeniləndi]")
+        except Exception:
+            pass
 
     def evaluate_results(self) -> int:
         """Kritik və ya Yüksək riskli xətalar olduqda 1 (Fail), əks halda 0 (Pass) qaytarır."""

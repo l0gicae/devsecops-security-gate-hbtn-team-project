@@ -72,14 +72,14 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         <!-- Metrics Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="glass-card rounded-xl p-5 border-t-2 border-red-500">
+            <div class="glass-card rounded-xl p-5 border-t-2 __CVSS_BORDER_COLOR__">
                 <div class="flex justify-between items-start">
                     <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">CVSS v3.1 Risk Skoru</span>
-                    <i data-lucide="activity" class="w-5 h-5 text-red-400"></i>
+                    <i data-lucide="activity" class="w-5 h-5 __CVSS_ICON_COLOR__"></i>
                 </div>
                 <div class="mt-3 flex items-baseline gap-2">
-                    <span class="text-3xl font-extrabold text-red-400 mono" id="cvss-score">__OVERALL_CVSS__</span>
-                    <span class="text-xs font-bold text-red-300 bg-red-950/60 px-2 py-0.5 rounded">__RISK_LEVEL__</span>
+                    <span class="text-3xl font-extrabold __CVSS_TEXT_COLOR__ mono" id="cvss-score">__OVERALL_CVSS__</span>
+                    <span class="text-xs font-bold __CVSS_BADGE_STYLE__ px-2 py-0.5 rounded">__RISK_LEVEL__</span>
                 </div>
                 <p class="text-xs text-gray-400 mt-2">Weighted Max Risk Alqoritmi ilə</p>
             </div>
@@ -200,10 +200,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         new Chart(ctxSeverity, {
             type: 'doughnut',
             data: {
-                labels: ['Critical', 'High', 'Medium', 'Low'],
+                labels: __SEVERITY_LABELS__,
                 datasets: [{
-                    data: [__CRITICAL_COUNT__, __HIGH_COUNT__, __MEDIUM_COUNT__, __LOW_COUNT__],
-                    backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#10b981'],
+                    data: __SEVERITY_DATA__,
+                    backgroundColor: __SEVERITY_COLORS__,
                     borderWidth: 0
                 }]
             },
@@ -219,10 +219,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         new Chart(ctxCwe, {
             type: 'bar',
             data: {
-                labels: ['CWE-798 (Secrets)', 'CWE-89 (SQLi)', 'CWE-95 (Eval RCE)', 'CWE-78 (Cmd Inj)'],
+                labels: __CWE_LABELS__,
                 datasets: [{
                     label: 'İnsident Sayı',
-                    data: [3, 1, 1, 1],
+                    data: __CWE_DATA__,
                     backgroundColor: '#6366f1',
                     borderRadius: 6
                 }]
@@ -261,6 +261,27 @@ def generate_dashboard(report_path='normalized_report.json', output_path='dashbo
     gate_badge_style = "bg-red-950/80 text-red-300 border-red-500/50 glow-red" if is_failed else "bg-emerald-950/80 text-emerald-300 border-emerald-500/50 glow-green"
     gate_badge_content = "❌ CI/CD GATE BLOKLANDI" if is_failed else "✅ CI/CD GATE PASSED"
 
+    if risk_level == "CRITICAL":
+        cvss_border = "border-red-500"
+        cvss_text = "text-red-400"
+        cvss_icon = "text-red-400"
+        cvss_badge = "text-red-300 bg-red-950/60"
+    elif risk_level == "HIGH":
+        cvss_border = "border-amber-500"
+        cvss_text = "text-amber-400"
+        cvss_icon = "text-amber-400"
+        cvss_badge = "text-amber-300 bg-amber-950/60"
+    elif risk_level == "MEDIUM":
+        cvss_border = "border-blue-500"
+        cvss_text = "text-blue-400"
+        cvss_icon = "text-blue-400"
+        cvss_badge = "text-blue-300 bg-blue-950/60"
+    else:
+        cvss_border = "border-emerald-500"
+        cvss_text = "text-emerald-400"
+        cvss_icon = "text-emerald-400"
+        cvss_badge = "text-emerald-300 bg-emerald-950/60"
+
     # Cədvəl sətirlərinin generasiyası
     table_rows = []
     for item in findings:
@@ -298,19 +319,69 @@ def generate_dashboard(report_path='normalized_report.json', output_path='dashbo
         """
         table_rows.append(row_html)
 
+    if not table_rows:
+        table_rows.append("""
+        <tr>
+            <td colspan="6" class="p-8 text-center text-emerald-400">
+                <div class="flex flex-col items-center justify-center gap-2">
+                    <span class="text-3xl">🎉</span>
+                    <span class="text-sm font-bold">Əla! Heç bir təhlükəsizlik xətası aşkar edilmədi.</span>
+                    <span class="text-xs text-gray-400">Bütün qaydalar və secret skaneri uğurla keçdi (CI/CD Gate: PASSED).</span>
+                </div>
+            </td>
+        </tr>
+        """)
+
+    # Dynamic Chart Data
+    critical_c = stats.get('critical_count', 0)
+    high_c = stats.get('high_count', 0)
+    medium_c = stats.get('medium_count', 0)
+    low_c = stats.get('low_count', 0)
+
+    if critical_c == 0 and high_c == 0 and medium_c == 0 and low_c == 0:
+        sev_labels = json.dumps(['Təhlükəsiz (Clean)'])
+        sev_data = json.dumps([1])
+        sev_colors = json.dumps(['#10b981'])
+    else:
+        sev_labels = json.dumps(['Critical', 'High', 'Medium', 'Low'])
+        sev_data = json.dumps([critical_c, high_c, medium_c, low_c])
+        sev_colors = json.dumps(['#ef4444', '#f59e0b', '#3b82f6', '#10b981'])
+
+    cwe_map = {}
+    for f in findings:
+        cwe_raw = f.get('cwe', 'Unknown')
+        cwe_key = cwe_raw.split(':')[0] if ':' in cwe_raw else cwe_raw
+        cwe_map[cwe_key] = cwe_map.get(cwe_key, 0) + 1
+
+    if not cwe_map:
+        cwe_labels = json.dumps(['Zəiflik Aşkar Edilmədi'])
+        cwe_data = json.dumps([0])
+    else:
+        cwe_labels = json.dumps(list(cwe_map.keys()))
+        cwe_data = json.dumps(list(cwe_map.values()))
+
     html_content = HTML_TEMPLATE
     html_content = html_content.replace('__SCAN_ID__', str(scan_id))
     html_content = html_content.replace('__GATE_BADGE_STYLE__', gate_badge_style)
     html_content = html_content.replace('__GATE_BADGE_CONTENT__', gate_badge_content)
+    html_content = html_content.replace('__CVSS_BORDER_COLOR__', cvss_border)
+    html_content = html_content.replace('__CVSS_TEXT_COLOR__', cvss_text)
+    html_content = html_content.replace('__CVSS_ICON_COLOR__', cvss_icon)
+    html_content = html_content.replace('__CVSS_BADGE_STYLE__', cvss_badge)
     html_content = html_content.replace('__OVERALL_CVSS__', str(overall_score))
     html_content = html_content.replace('__RISK_LEVEL__', str(risk_level))
     html_content = html_content.replace('__UNIQUE_COUNT__', str(stats.get('unique_findings_count', 0)))
     html_content = html_content.replace('__RAW_COUNT__', str(stats.get('raw_findings_count', 0)))
     html_content = html_content.replace('__DUPLICATES_SUPPRESSED__', str(stats.get('duplicates_suppressed', 0)))
-    html_content = html_content.replace('__CRITICAL_COUNT__', str(stats.get('critical_count', 0)))
-    html_content = html_content.replace('__HIGH_COUNT__', str(stats.get('high_count', 0)))
-    html_content = html_content.replace('__MEDIUM_COUNT__', str(stats.get('medium_count', 0)))
-    html_content = html_content.replace('__LOW_COUNT__', str(stats.get('low_count', 0)))
+    html_content = html_content.replace('__CRITICAL_COUNT__', str(critical_c))
+    html_content = html_content.replace('__HIGH_COUNT__', str(high_c))
+    html_content = html_content.replace('__MEDIUM_COUNT__', str(medium_c))
+    html_content = html_content.replace('__LOW_COUNT__', str(low_c))
+    html_content = html_content.replace('__SEVERITY_LABELS__', sev_labels)
+    html_content = html_content.replace('__SEVERITY_DATA__', sev_data)
+    html_content = html_content.replace('__SEVERITY_COLORS__', sev_colors)
+    html_content = html_content.replace('__CWE_LABELS__', cwe_labels)
+    html_content = html_content.replace('__CWE_DATA__', cwe_data)
     html_content = html_content.replace('__PATCHABLE_COUNT__', str(stats.get('unique_findings_count', 0)))
     html_content = html_content.replace('__FINDINGS_TABLE_ROWS__', "".join(table_rows))
     html_content = html_content.replace('__GENERATED_TIME__', str(generated_at))

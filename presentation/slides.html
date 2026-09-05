@@ -289,16 +289,16 @@
 
             <div class="grid-3 reveal delay-4" style="width: 100%; max-width: 900px;">
                 <div class="glass-card p-4 text-left border-l-4" style="border-left-color: var(--accent-rose); padding: 1rem;">
-                    <div class="mono" style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 800;">01. ANINDA BLOKLAMA</div>
-                    <div style="font-size: var(--body-size); font-weight: 700; margin-top: 0.3rem;">Zəif PR-ların Birləşməsinə Son</div>
+                    <div class="mono" style="font-size: var(--small-size); color: var(--accent-rose); font-weight: 800;">01. INSTANT BLOCKING</div>
+                    <div style="font-size: var(--body-size); font-weight: 700; margin-top: 0.3rem;">Zəif PR-ların Merge Olunmasına Son</div>
                 </div>
                 <div class="glass-card p-4 text-left border-l-4" style="border-left-color: var(--accent-cyan); padding: 1rem;">
-                    <div class="mono" style="font-size: var(--small-size); color: var(--accent-cyan); font-weight: 800;">02. SƏNİYƏLİK TELEGRAM</div>
+                    <div class="mono" style="font-size: var(--small-size); color: var(--accent-cyan); font-weight: 800;">02. REAL-TIME ALERT</div>
                     <div style="font-size: var(--body-size); font-weight: 700; margin-top: 0.3rem;">Müəllif & Xəta ilə Canlı Alert</div>
                 </div>
                 <div class="glass-card p-4 text-left border-l-4" style="border-left-color: var(--accent-emerald); padding: 1rem;">
-                    <div class="mono" style="font-size: var(--small-size); color: var(--accent-emerald); font-weight: 800;">03. 0 AZN XƏRC</div>
-                    <div style="font-size: var(--body-size); font-weight: 700; margin-top: 0.3rem;">GitHub Actions & Açıq Mənbə</div>
+                    <div class="mono" style="font-size: var(--small-size); color: var(--accent-emerald); font-weight: 800;">03. ZERO-COST SETUP</div>
+                    <div style="font-size: var(--body-size); font-weight: 700; margin-top: 0.3rem;">GitHub Actions & Open Source</div>
                 </div>
             </div>
         </div>
@@ -309,16 +309,16 @@
          ==================================================================== -->
     <section class="slide" id="slide-2" data-notes="Müasir proqramlaşdırmada təhlükəsizliyi kod yazılıb qurtardıqdan sonra yoxlamaq artıq gecdir. Sızmış 1 OpenAI açarı şirkətə minlərlə dollar ziyan vura bilər. SQL Injection isə məlumat bazasını tam ifşa edir.">
         <div class="slide-content">
-            <span class="badge badge-rose reveal delay-1"><i data-lucide="alert-octagon" class="w-3 h-3"></i> Problem və Reallıq</span>
+            <span class="badge badge-rose reveal delay-1"><i data-lucide="alert-octagon" class="w-3 h-3"></i> Threat Landscape & Risk</span>
             <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--h2-size); margin-bottom: 1.5rem;">
-                Təhlükəsizlik İstehsalata Çatandan Sonra Çox Gecdir!
+                Təhlükəsizliyi Production-da Yoxlamaq Artıq Çox Gecdir!
             </h2>
 
             <div class="grid-2">
                 <div class="glass-card p-5 reveal delay-3" style="padding: 1.5rem; border-top: 3px solid var(--accent-rose);">
                     <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
                         <i data-lucide="key" class="w-6 h-6" style="color: var(--accent-rose);"></i>
-                        <h3 style="font-size: var(--h3-size); font-weight: 800;">Məxfi Açarların Sızması (Secret Leaks)</h3>
+                        <h3 style="font-size: var(--h3-size); font-weight: 800;">Secret Leaks (Məxfi Açar Sızması)</h3>
                     </div>
                     <p style="font-size: var(--body-size); color: var(--text-muted); line-height: 1.5;">
                         Təcrübəsiz və ya tələsən proqramçılar OpenAI API key, AWS Token və ya DB şifrəsini koda yazıb GitHub-a push edirlər. Xakerlər botlarla GitHub-ı 2 saniyədə skan edib şirkəti qarət edir.
@@ -328,7 +328,7 @@
                 <div class="glass-card p-5 reveal delay-4" style="padding: 1.5rem; border-top: 3px solid var(--accent-amber);">
                     <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem;">
                         <i data-lucide="database" class="w-6 h-6" style="color: var(--accent-amber);"></i>
-                        <h3 style="font-size: var(--h3-size); font-weight: 800;">Kritik Kod Boşluqları (SAST Flaws)</h3>
+                        <h3 style="font-size: var(--h3-size); font-weight: 800;">SAST Flaws (Kritik Kod Zəiflikləri)</h3>
                     </div>
                     <p style="font-size: var(--body-size); color: var(--text-muted); line-height: 1.5;">
                         SQL Injection və `eval()` kimi zəifliklər canlı serverə çatdıqda bütöv verilənlər bazası silinir və ya serverdə uzaqdan kod icra olunur (RCE).
@@ -347,9 +347,9 @@
          ==================================================================== -->
     <section class="slide" id="slide-3" data-notes="Bizim sistem Shift-Left konsepsiyası ilə işləyir. Proqramçı kodu push edən anda GitHub Actions skaneri işə salır, xətanı tutur, PR-ı bloklayır və Telegram-a xəbərdarlıq atır.">
         <div class="slide-content">
-            <span class="badge badge-emerald reveal delay-1"><i data-lucide="cpu" class="w-3 h-3"></i> Shift-Left Arxitekturası</span>
+            <span class="badge badge-emerald reveal delay-1"><i data-lucide="cpu" class="w-3 h-3"></i> Shift-Left Architecture</span>
             <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--h2-size); margin-bottom: 1.5rem;">
-                Sistem Necə İşləyir? (4 Mərhələli Avtomatlaşdırma)
+                Sistem Necə İşləyir? (CI/CD Pipeline Flow)
             </h2>
 
             <div class="grid-4 reveal delay-3">
@@ -361,13 +361,13 @@
 
                 <div class="glass-card p-4 text-center" style="padding: 1.2rem;">
                     <div style="font-size: 2rem; margin-bottom: 0.5rem;">🛡️</div>
-                    <div class="badge badge-cyan mono" style="margin-bottom: 0.5rem;">2. CI/CD Skanı</div>
-                    <p style="font-size: var(--small-size); color: var(--text-muted);">SAST və Secret Skaneri 3 saniyədə yoxlayır.</p>
+                    <div class="badge badge-cyan mono" style="margin-bottom: 0.5rem;">2. CI/CD Scan</div>
+                    <p style="font-size: var(--small-size); color: var(--text-muted);">SAST və Secret Scanner 3 saniyədə yoxlayır.</p>
                 </div>
 
                 <div class="glass-card p-4 text-center" style="padding: 1.2rem;">
                     <div style="font-size: 2rem; margin-bottom: 0.5rem;">🛑</div>
-                    <div class="badge badge-rose mono" style="margin-bottom: 0.5rem;">3. PR Bloklandı</div>
+                    <div class="badge badge-rose mono" style="margin-bottom: 0.5rem;">3. PR Blocked</div>
                     <p style="font-size: var(--small-size); color: var(--text-muted);">Kritik xəta aşkarlandıqda merge dayandırılır.</p>
                 </div>
 
@@ -379,25 +379,25 @@
             </div>
 
             <div class="glass-card p-4 mt-4 reveal delay-4" style="margin-top: 1.2rem; padding: 1rem; border-left: 4px solid var(--accent-emerald);">
-                <div style="font-size: var(--body-size); font-weight: 700; color: var(--accent-emerald);">✅ Nəticə: Təhlükəsiz olmayan heç bir kod parçası canlı prodakşna çata bilməz!</div>
+                <div style="font-size: var(--body-size); font-weight: 700; color: var(--accent-emerald);">✅ Nəticə: Təhlükəsiz olmayan heç bir kod parçası canlı production-a çata bilməz!</div>
             </div>
         </div>
     </section>
 
     <!-- ====================================================================
-         SLIDE 4: TEXNİKİ MÜHƏRRİKLƏR (UNDER THE HOOD)
+         SLIDE 4: CORE ENGINEERING (UNDER THE HOOD)
          ==================================================================== -->
-    <section class="slide" id="slide-4" data-notes="Müəllim wrapper sualı verərsə bu slayd ən böyük cavabımızdır. Biz sadəcə alət çağırmırıq. Xüsusi AST və Regex mühərriki, SHA-256 barmaq izi ilə deduplikasiya və CVSS v3.1 risk hesablama formulu yazmışıq.">
+    <section class="slide" id="slide-4" data-notes="Müəllim wrapper sualı verərsə bu slayd ən böyük cavabımızdır. Biz sadəcə alət çağırmırıq. Custom AST və Regex engine, SHA-256 fingerprint ilə deduplication və CVSS v3.1 risk hesablama alqoritmi yazmışıq.">
         <div class="slide-content">
-            <span class="badge badge-indigo reveal delay-1"><i data-lucide="terminal" class="w-3 h-3"></i> Mühəndislik Payımız</span>
+            <span class="badge badge-indigo reveal delay-1"><i data-lucide="terminal" class="w-3 h-3"></i> Core Engineering</span>
             <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--h2-size); margin-bottom: 1.2rem;">
-                Kapronun Altında Nə Var? (Core Engineering)
+                Under the Hood (Core Engineering)
             </h2>
 
             <div class="grid-3 reveal delay-3">
                 <div class="glass-card p-5" style="padding: 1.2rem;">
                     <div class="mono" style="color: var(--accent-indigo); font-weight: 800; font-size: var(--small-size);">01. AST & REGEX ENGINE</div>
-                    <h3 style="font-size: var(--body-size); font-weight: 800; margin: 0.5rem 0;">Xüsusi Skaner Mühərriki</h3>
+                    <h3 style="font-size: var(--body-size); font-weight: 800; margin: 0.5rem 0;">Custom Scanner Engine</h3>
                     <p style="font-size: var(--small-size); color: var(--text-muted); line-height: 1.4;">
                         Python AST və Regex ilə SQLi, eval RCE, OS injection və 8 fərqli açar formatını (AWS, OpenAI, RSA) aşkarlayır.
                     </p>
@@ -405,7 +405,7 @@
 
                 <div class="glass-card p-5" style="padding: 1.2rem;">
                     <div class="mono" style="color: var(--accent-cyan); font-weight: 800; font-size: var(--small-size);">02. FINGERPRINT & DEDUP</div>
-                    <h3 style="font-size: var(--body-size); font-weight: 800; margin: 0.5rem 0;">Deduplikasiya Mühərriki</h3>
+                    <h3 style="font-size: var(--body-size); font-weight: 800; margin: 0.5rem 0;">Deduplication Engine</h3>
                     <p style="font-size: var(--small-size); color: var(--text-muted); line-height: 1.4;">
                         <code>SHA-256(file+line+cwe)</code> ilə eyni xətanı tutan fərqli alətlərin nəticələrini təmizləyir, təkrar xəbərdarlıqları süzür.
                     </p>
@@ -413,7 +413,7 @@
 
                 <div class="glass-card p-5" style="padding: 1.2rem;">
                     <div class="mono" style="color: var(--accent-emerald); font-weight: 800; font-size: var(--small-size);">03. CVSS v3.1 SCORING</div>
-                    <h3 style="font-size: var(--body-size); font-weight: 800; margin: 0.5rem 0;">Riyazi Risk Qiymətləndirməsi</h3>
+                    <h3 style="font-size: var(--body-size); font-weight: 800; margin: 0.5rem 0;">CVSS Risk Scoring</h3>
                     <p style="font-size: var(--small-size); color: var(--text-muted); line-height: 1.4;">
                         Weighted Max Risk alqoritmi ilə layihəyə 0.0 - 10.0 arası real risk dərəcəsi verir.
                     </p>
@@ -427,19 +427,19 @@
     </section>
 
     <!-- ====================================================================
-         SLIDE 5: REMEDIATION & ROLLBACK (PRODAKŞN TƏHLÜKƏSİZLİYİ)
+         SLIDE 5: REMEDIATION & ROLLBACK
          ==================================================================== -->
     <section class="slide" id="slide-5" data-notes="Biz prodakşna toxunmuruq. Remediation dedikdə developer üçün git apply edilə bilən hazır .patch faylı və nəsə xarab olarsa 1 əmrlə geri qaytarmaq üçün Rollback planı hazırlayırıq.">
         <div class="slide-content">
-            <span class="badge badge-cyan reveal delay-1"><i data-lucide="git-merge" class="w-3 h-3"></i> Təhlükəsiz Bərpa</span>
+            <span class="badge badge-cyan reveal delay-1"><i data-lucide="git-merge" class="w-3 h-3"></i> Remediation & Rollback</span>
             <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--h2-size); margin-bottom: 1.2rem;">
-                Deterministik Remediation və Rollback Zəmanəti
+                Deterministic Remediation & Automated Rollback
             </h2>
 
             <div class="grid-2 reveal delay-3">
                 <div class="glass-card p-5" style="padding: 1.5rem; border-left: 4px solid var(--accent-emerald);">
                     <h3 style="font-size: var(--body-size); font-weight: 800; color: var(--accent-emerald); margin-bottom: 0.5rem;">
-                        ✅ 1. Deterministik Git Diff (.patch)
+                        ✅ 1. Deterministic Git Diff (.patch)
                     </h3>
                     <p style="font-size: var(--small-size); color: var(--text-muted); line-height: 1.5; margin-bottom: 0.8rem;">
                         Sistem sadəcə tövsiyə mətni çıxarmır; developer-in 1 saniyədə tətbiq edə biləcəyi hazır patch faylı generasiya edir:
@@ -451,10 +451,10 @@
 
                 <div class="glass-card p-5" style="padding: 1.5rem; border-left: 4px solid var(--accent-amber);">
                     <h3 style="font-size: var(--body-size); font-weight: 800; color: var(--accent-amber); margin-bottom: 0.5rem;">
-                        ↩️ 2. Rollback (Geri Qaytarma) Planı
+                        ↩️ 2. Automated Rollback Planı
                     </h3>
                     <p style="font-size: var(--small-size); color: var(--text-muted); line-height: 1.5; margin-bottom: 0.8rem;">
-                        Düzəliş asılılıqları pozarsa, Playbook-da göstərilən əmrlə dərhal əvvəlki stabil vəziyyətə qayıdılır:
+                        Fix asılılıqları pozarsa, Playbook-da göstərilən əmrlə dərhal əvvəlki stabil commit-ə qayıdılır:
                     </p>
                     <code class="mono" style="display: block; background: #020617; padding: 0.6rem; border-radius: 0.5rem; font-size: 0.75rem; color: #fde68a;">
                         git checkout -- demo_vulnerabilities/vulnerable_sample.py
@@ -464,7 +464,7 @@
 
             <div class="glass-card p-3 mt-4 reveal delay-4 text-center" style="margin-top: 1rem;">
                 <span class="mono" style="font-size: var(--small-size); color: var(--text-muted);">
-                    🛡️ Qayda: Zero Unverified Production Mutation (Yoxlanılmamış heç bir kod canlıya getmir).
+                    🛡️ Qayda: Zero Unverified Production Mutation (Yoxlanılmamış heç bir kod canlı production-a getmir).
                 </span>
             </div>
         </div>
@@ -475,7 +475,7 @@
          ==================================================================== -->
     <section class="slide" id="slide-6" data-notes="Bizim layihənin çox güclü vizual interfeysi var. Single-pane-of-glass dashboard brauzerdə açılır, CVSS qrafiklərini göstərir və tək kliklə patch statusunu verir.">
         <div class="slide-content">
-            <span class="badge badge-emerald reveal delay-1"><i data-lucide="layout-dashboard" class="w-3 h-3"></i> Vizual İdarəetmə Paneli</span>
+            <span class="badge badge-emerald reveal delay-1"><i data-lucide="layout-dashboard" class="w-3 h-3"></i> Interactive GUI & Dashboard</span>
             <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--h2-size); margin-bottom: 1.2rem;">
                 Single-Pane-of-Glass VAPT Dashboard
             </h2>
@@ -486,10 +486,10 @@
                         📊 Niyə 50 Səhifəlik PDF Yox, İnteraktiv Dashboard?
                     </h3>
                     <ul style="font-size: var(--small-size); color: var(--text-muted); line-height: 1.8; list-style: none;">
-                        <li>• 🔴 <b>CVSS v3.1 Risk Qrafiki:</b> Təhlükə səviyyəsinin vizual bölgüsü.</li>
-                        <li>• 🎯 <b>CWE & OWASP Xəritəsi:</b> Xətaların zəiflik kateqoriyaları üzrə analizi.</li>
-                        <li>• 🔍 <b>Unikal Barmaq İzi:</b> Hər xətanın faylı, sətri və həll kodu.</li>
-                        <li>• ⚡ <b>Birbaşa Patch Yükləmə:</b> Tək kliklə Playbook və Patch əldə etmək.</li>
+                        <li>• 🔴 <b>CVSS v3.1 Risk Heatmap:</b> Təhlükə səviyyəsinin vizual bölgüsü.</li>
+                        <li>• 🎯 <b>CWE & OWASP Mapping:</b> Xətaların zəiflik kateqoriyaları üzrə analizi.</li>
+                        <li>• 🔍 <b>Unique Fingerprint:</b> Hər xətanın faylı, sətri və həll kodu.</li>
+                        <li>• ⚡ <b>One-Click Patch Export:</b> Tək kliklə Playbook və Patch əldə etmək.</li>
                     </ul>
                 </div>
 
@@ -503,26 +503,26 @@
             </div>
 
             <div class="glass-card p-3 mt-4 reveal delay-4 text-center mono" style="margin-top: 1rem; font-size: var(--small-size); color: var(--accent-emerald);">
-                🚀 Canlı nümayiş üçün tam hazırdır: Fail ➡️ Alert ➡️ Patch ➡️ Pass!
+                🚀 Live Demo üçün tam hazırdır: Fail ➡️ Alert ➡️ Patch ➡️ Pass!
             </div>
         </div>
     </section>
 
     <!-- ====================================================================
-         SLIDE 7: BAZAR VƏ RƏQABƏT (NİYƏ BU?)
+         SLIDE 7: BAZAR VƏ RƏQABƏT (MARKET COMPARISON)
          ==================================================================== -->
     <section class="slide" id="slide-7" data-notes="Müəllim Qualys, Nessus və ya DefectDojo varkən şirkət niyə sizi seçsin deyə soruşanda bu müqayisə cədvəli ən tutarlı arqumentimizdir.">
         <div class="slide-content">
-            <span class="badge badge-indigo reveal delay-1"><i data-lucide="scale" class="w-3 h-3"></i> Dəyər Təklifi</span>
+            <span class="badge badge-indigo reveal delay-1"><i data-lucide="scale" class="w-3 h-3"></i> Competitive Analysis & Value</span>
             <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--h2-size); margin-bottom: 1.2rem;">
-                Bazar Rəqabəti: Niyə Bizim Sistem?
+                Market Comparison: Niyə Bizim Sistem?
             </h2>
 
             <div class="glass-card overflow-hidden reveal delay-3" style="padding: 0;">
                 <table style="width: 100%; text-align: left; font-size: var(--small-size); border-collapse: collapse;">
                     <thead>
                         <tr style="background: rgba(15, 23, 42, 0.9); border-bottom: 1px solid var(--border-card);">
-                            <th style="padding: 0.8rem 1rem;">Meyar</th>
+                            <th style="padding: 0.8rem 1rem;">Meyar / Metric</th>
                             <th style="padding: 0.8rem 1rem; color: var(--accent-rose);">Enterprise (Qualys/Nessus)</th>
                             <th style="padding: 0.8rem 1rem; color: var(--accent-amber);">DefectDojo</th>
                             <th style="padding: 0.8rem 1rem; color: var(--accent-emerald); font-weight: 800;">Bizim Sistem</th>
@@ -533,22 +533,22 @@
                             <td style="padding: 0.7rem 1rem; font-weight: 700;">Lisenziya Xərci</td>
                             <td style="padding: 0.7rem 1rem; color: var(--accent-rose);">$15,000+ / il</td>
                             <td style="padding: 0.7rem 1rem;">Ödənişli Hostinq</td>
-                            <td style="padding: 0.7rem 1rem; color: var(--accent-emerald); font-weight: 800;">0 AZN (Pulsuz)</td>
+                            <td style="padding: 0.7rem 1rem; color: var(--accent-emerald); font-weight: 800;">0 AZN (Open Source)</td>
                         </tr>
                         <tr style="border-bottom: 1px solid rgba(51, 65, 85, 0.3);">
-                            <td style="padding: 0.7rem 1rem; font-weight: 700;">CI/CD PR Bloklama</td>
+                            <td style="padding: 0.7rem 1rem; font-weight: 700;">CI/CD PR Blocking Gate</td>
                             <td style="padding: 0.7rem 1rem;">Ağır və Çətindir</td>
                             <td style="padding: 0.7rem 1rem;">Yalnız passiv baza</td>
                             <td style="padding: 0.7rem 1rem; color: var(--accent-emerald); font-weight: 800;">✅ Saniyəlik Qapı</td>
                         </tr>
                         <tr style="border-bottom: 1px solid rgba(51, 65, 85, 0.3);">
-                            <td style="padding: 0.7rem 1rem; font-weight: 700;">Telegram Alert Botu</td>
+                            <td style="padding: 0.7rem 1rem; font-weight: 700;">Telegram Alert Bot</td>
                             <td style="padding: 0.7rem 1rem;">Xeyr (Email)</td>
                             <td style="padding: 0.7rem 1rem;">Xüsusi plugin tələb edir</td>
-                            <td style="padding: 0.7rem 1rem; color: var(--accent-emerald); font-weight: 800;">✅ Real-vaxt Zəngin HTML</td>
+                            <td style="padding: 0.7rem 1rem; color: var(--accent-emerald); font-weight: 800;">✅ Real-time Rich Alert</td>
                         </tr>
                         <tr>
-                            <td style="padding: 0.7rem 1rem; font-weight: 700;">Deterministik Patch</td>
+                            <td style="padding: 0.7rem 1rem; font-weight: 700;">Deterministic Auto-Patch</td>
                             <td style="padding: 0.7rem 1rem;">Xeyr (Mətn tövsiyəsi)</td>
                             <td style="padding: 0.7rem 1rem;">Xeyr</td>
                             <td style="padding: 0.7rem 1rem; color: var(--accent-emerald); font-weight: 800;">✅ Hazır .patch diff</td>
@@ -564,7 +564,7 @@
          ==================================================================== -->
     <section class="slide" id="slide-8" data-notes="Diqqətiniz üçün təşəkkür edirik! Suallarınızı cavablandırmağa hazırıq.">
         <div class="slide-content text-center items-center">
-            <span class="badge badge-emerald reveal delay-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Nəticə və Yekun</span>
+            <span class="badge badge-emerald reveal delay-1"><i data-lucide="check-circle" class="w-3 h-3"></i> Conclusion & Team</span>
             <h2 class="hero-title mt-2 reveal delay-2" style="font-size: var(--title-size); margin-bottom: 1.5rem;">
                 Təhlükəsiz Kod, Etibarlı Gələcək!
             </h2>
@@ -572,17 +572,17 @@
             <div class="grid-3 reveal delay-3" style="width: 100%; max-width: 900px; margin-bottom: 2rem;">
                 <div class="glass-card p-4" style="padding: 1.2rem;">
                     <div style="font-size: 1.5rem; margin-bottom: 0.3rem;">🛡️</div>
-                    <div style="font-size: var(--body-size); font-weight: 800;">Təhlükəsizlik Analitiki</div>
-                    <div style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3rem;">Regex & AST Qaydaları</div>
+                    <div style="font-size: var(--body-size); font-weight: 800;">Security Analyst</div>
+                    <div style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3rem;">Regex & AST Rules</div>
                 </div>
                 <div class="glass-card p-4" style="padding: 1.2rem;">
                     <div style="font-size: 1.5rem; margin-bottom: 0.3rem;">⚙️</div>
-                    <div style="font-size: var(--body-size); font-weight: 800;">DevOps Mühəndisi</div>
+                    <div style="font-size: var(--body-size); font-weight: 800;">DevOps Engineer</div>
                     <div style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3rem;">GitHub Actions CI/CD</div>
                 </div>
                 <div class="glass-card p-4" style="padding: 1.2rem;">
                     <div style="font-size: 1.5rem; margin-bottom: 0.3rem;">📱</div>
-                    <div style="font-size: var(--body-size); font-weight: 800;">İnteqrasiya Tərtibatçısı</div>
+                    <div style="font-size: var(--body-size); font-weight: 800;">Integration Developer</div>
                     <div style="font-size: var(--small-size); color: var(--text-muted); margin-top: 0.3rem;">Telegram Bot & Dashboard</div>
                 </div>
             </div>

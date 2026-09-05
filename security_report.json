@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-08-29T22:05:50.356450+00:00",
+  "timestamp": "2026-09-05T11:22:42.889292+00:00",
   "scanner_version": "1.0.0",
   "status": "FAILED",
   "summary": {
-    "files_scanned": 1,
+    "files_scanned": 8,
     "total_findings": 6,
     "critical": 4,
     "high": 2,
@@ -16,7 +16,7 @@
       "name": "OpenAI / LLM API Key",
       "category": "Secret Leak",
       "severity": "CRITICAL",
-      "file": "vulnerable_sample.py",
+      "file": "demo_vulnerabilities/vulnerable_sample.py",
       "line": 14,
       "code_snippet": "OPENAI_API_KEY = \"sk-proj-9999888877776666555544443333222211110000\"",
       "remediation": "OpenAI API açarlarını heç vaxt repozitoriyaya göndərməyin (.env faylından oxuyun)."
@@ -26,7 +26,7 @@
       "name": "AWS Access Key ID",
       "category": "Secret Leak",
       "severity": "CRITICAL",
-      "file": "vulnerable_sample.py",
+      "file": "demo_vulnerabilities/vulnerable_sample.py",
       "line": 15,
       "code_snippet": "AWS_ACCESS_KEY = \"AKIAIOSFODNN7EXAMPLE\"",
       "remediation": "AWS açarlarını koddan silin və AWS Secrets Manager və ya Environment Variables istifadə edin."
@@ -36,7 +36,7 @@
       "name": "Hardcoded Password / Credential",
       "category": "Secret Leak",
       "severity": "HIGH",
-      "file": "vulnerable_sample.py",
+      "file": "demo_vulnerabilities/vulnerable_sample.py",
       "line": 16,
       "code_snippet": "DATABASE_PASSWORD = \"SuperSecretPassword123!\"",
       "remediation": "Statik şifrələri konfiqurasiya fayllarından çıxarıb təhlükəsiz Vault-a yerləşdirin."
@@ -46,7 +46,7 @@
       "name": "SQL Injection Riski (String Interpolation in Query)",
       "category": "SAST Vulnerability",
       "severity": "CRITICAL",
-      "file": "vulnerable_sample.py",
+      "file": "demo_vulnerabilities/vulnerable_sample.py",
       "line": 24,
       "code_snippet": "query = f\"SELECT * FROM users WHERE id = {user_id}\"",
       "remediation": "Parametrləşdirilmiş sorğulardan (Parameterized Queries / ORM: cursor.execute('SELECT...', (val,))) istifadə edin."
@@ -56,7 +56,7 @@
       "name": "Təhlükəli eval() / exec() Çağırışı",
       "category": "SAST Vulnerability",
       "severity": "CRITICAL",
-      "file": "vulnerable_sample.py",
+      "file": "demo_vulnerabilities/vulnerable_sample.py",
       "line": 31,
       "code_snippet": "result = eval(user_math_input)",
       "remediation": "Dinamik kod icra edən eval()/exec() funksiyalarından çəkinin, ast.literal_eval və ya json.loads istifadə edin."
@@ -66,7 +66,7 @@
       "name": "Komanda İnyeksiyası (Command Injection / os.system)",
       "category": "SAST Vulnerability",
       "severity": "HIGH",
-      "file": "vulnerable_sample.py",
+      "file": "demo_vulnerabilities/vulnerable_sample.py",
       "line": 37,
       "code_snippet": "os.system(f\"ping -c 1 {hostname}\")",
       "remediation": "subprocess modulunda `shell=False` istifadə edin və parametrləri massiv şəklində ötürün."

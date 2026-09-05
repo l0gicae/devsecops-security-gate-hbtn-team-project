@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
-                <span class="text-xs text-gray-400 mono">Scan ID: <span id="scan-id" class="text-gray-200">vapt-20260829-220806</span></span>
+                <span class="text-xs text-gray-400 mono">Scan ID: <span id="scan-id" class="text-gray-200">vapt-20260905-112242</span></span>
                 <span id="gate-badge" class="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide uppercase border flex items-center gap-1.5 bg-red-950/80 text-red-300 border-red-500/50 glow-red">
                     ❌ CI/CD GATE BLOKLANDI
                 </span>
@@ -165,7 +165,7 @@
                 <div class="text-[11px] text-gray-400 mono">CWE-798: Use of Hard-coded Credentials</div>
             </td>
             <td class="p-3.5 mono text-gray-300">
-                vulnerable_sample.py:14
+                demo_vulnerabilities/vulnerable_sample.py:14
             </td>
             <td class="p-3.5">
                 <code class="bg-gray-950 px-2 py-1 rounded text-red-300 font-mono text-[11px] block max-w-xs truncate">
@@ -193,7 +193,7 @@
                 <div class="text-[11px] text-gray-400 mono">CWE-798: Use of Hard-coded Credentials</div>
             </td>
             <td class="p-3.5 mono text-gray-300">
-                vulnerable_sample.py:15
+                demo_vulnerabilities/vulnerable_sample.py:15
             </td>
             <td class="p-3.5">
                 <code class="bg-gray-950 px-2 py-1 rounded text-red-300 font-mono text-[11px] block max-w-xs truncate">
@@ -221,7 +221,7 @@
                 <div class="text-[11px] text-gray-400 mono">CWE-259: Use of Hard-coded Password</div>
             </td>
             <td class="p-3.5 mono text-gray-300">
-                vulnerable_sample.py:16
+                demo_vulnerabilities/vulnerable_sample.py:16
             </td>
             <td class="p-3.5">
                 <code class="bg-gray-950 px-2 py-1 rounded text-red-300 font-mono text-[11px] block max-w-xs truncate">
@@ -249,7 +249,7 @@
                 <div class="text-[11px] text-gray-400 mono">CWE-89: Improper Neutralization of Special Elements used in an SQL Command (SQL Injection)</div>
             </td>
             <td class="p-3.5 mono text-gray-300">
-                vulnerable_sample.py:24
+                demo_vulnerabilities/vulnerable_sample.py:24
             </td>
             <td class="p-3.5">
                 <code class="bg-gray-950 px-2 py-1 rounded text-red-300 font-mono text-[11px] block max-w-xs truncate">
@@ -277,7 +277,7 @@
                 <div class="text-[11px] text-gray-400 mono">CWE-95: Improper Neutralization of Directives in Dynamically Evaluated Code (Eval Injection)</div>
             </td>
             <td class="p-3.5 mono text-gray-300">
-                vulnerable_sample.py:31
+                demo_vulnerabilities/vulnerable_sample.py:31
             </td>
             <td class="p-3.5">
                 <code class="bg-gray-950 px-2 py-1 rounded text-red-300 font-mono text-[11px] block max-w-xs truncate">
@@ -305,7 +305,7 @@
                 <div class="text-[11px] text-gray-400 mono">CWE-78: Improper Neutralization of Special Elements used in an OS Command (Command Injection)</div>
             </td>
             <td class="p-3.5 mono text-gray-300">
-                vulnerable_sample.py:37
+                demo_vulnerabilities/vulnerable_sample.py:37
             </td>
             <td class="p-3.5">
                 <code class="bg-gray-950 px-2 py-1 rounded text-red-300 font-mono text-[11px] block max-w-xs truncate">
@@ -329,7 +329,7 @@
 
         <!-- Footer -->
         <footer class="text-center text-xs text-gray-500 py-4">
-            DevSecOps & VAPT Automated Security Gate | 0 AZN Open-Source Architecture | Generated at 2026-08-29T22:08:06.869178+00:00
+            DevSecOps & VAPT Automated Security Gate | 0 AZN Open-Source Architecture | Generated at 2026-09-05T11:22:42.910539+00:00
         </footer>
 
     </div>
@@ -342,10 +342,10 @@
         new Chart(ctxSeverity, {
             type: 'doughnut',
             data: {
-                labels: ['Critical', 'High', 'Medium', 'Low'],
+                labels: ["Critical", "High", "Medium", "Low"],
                 datasets: [{
                     data: [4, 2, 0, 0],
-                    backgroundColor: ['#ef4444', '#f59e0b', '#3b82f6', '#10b981'],
+                    backgroundColor: ["#ef4444", "#f59e0b", "#3b82f6", "#10b981"],
                     borderWidth: 0
                 }]
             },
@@ -361,10 +361,10 @@
         new Chart(ctxCwe, {
             type: 'bar',
             data: {
-                labels: ['CWE-798 (Secrets)', 'CWE-89 (SQLi)', 'CWE-95 (Eval RCE)', 'CWE-78 (Cmd Inj)'],
+                labels: ["CWE-798", "CWE-259", "CWE-89", "CWE-95", "CWE-78"],
                 datasets: [{
                     label: 'İnsident Sayı',
-                    data: [3, 1, 1, 1],
+                    data: [2, 1, 1, 1, 1],
                     backgroundColor: '#6366f1',
                     borderRadius: 6
                 }]
