@@ -92,7 +92,7 @@ SAST_PATTERNS = [
         "id": "SAST-001",
         "name": "SQL Injection Riski (String Interpolation in Query)",
         "severity": "CRITICAL",
-        "regex": r"(?i)(?:f[\"'].*?(?:SELECT|INSERT|UPDATE|DELETE|DROP)\s+.*?\{.*?\}|(?:execute|cursor\.execute|raw_query)\s*\(\s*f?[\"'].*?(?:SELECT|INSERT|UPDATE|DELETE|DROP).*?(?:%|\+))",
+        "regex": r"(?i)(?:f[\"'].*?(?:SELECT|INSERT|UPDATE|DELETE|DROP)\s+.*?\{.*?\}|(?:execute|cursor\.execute|raw_query)\s*\(\s*f[\"'].*?(?:SELECT|INSERT|UPDATE|DELETE|DROP).*?\{|[\"'].*?(?:SELECT|INSERT|UPDATE|DELETE|DROP).*?\+\s*(?:\w+|[\"']))",
         "remediation": "Parametrləşdirilmiş sorğulardan (Parameterized Queries / ORM: cursor.execute('SELECT...', (val,))) istifadə edin."
     },
     {
