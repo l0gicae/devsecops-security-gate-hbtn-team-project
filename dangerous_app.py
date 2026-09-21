@@ -1,17 +1,13 @@
-import os
-import ast
+﻿import os
 
-# ✅ 1. TƏHLÜKƏSİZ GİZLİ AÇARLAR (Environment Variables)
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-AWS_ACCESS_KEY = os.getenv("AWS_ACCESS_KEY_ID")
+# LEAKED API KEYS
+OPENAI_API_KEY = "sk-proj-9999888877776666555544443333222211110000"
+AWS_ACCESS_KEY = "AKIAIOSFODNN7EXAMPLE"
 
-# ✅ 2. PARAMETRLƏŞDİRİLMİŞ SQL
-def get_user(cursor, user_id):
-    cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+# SQL INJECTION
+def get_user(user_id):
+    return f"SELECT * FROM users WHERE id = {user_id}"
 
-# ✅ 3. TƏHLÜKƏSİZ PARSER
+# REMOTE CODE EXECUTION
 def run_code(code):
-    try:
-        return ast.literal_eval(code)
-    except Exception:
-        return 0
+    return eval(code)
