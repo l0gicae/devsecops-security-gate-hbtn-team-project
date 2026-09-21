@@ -27,8 +27,75 @@ jobs:
 
       - name: "🔍 Təhlükəsizlik və Secret Skanını İcra Et"
         id: security_scan
+        continue-on-error: true
         run: |
           python scripts/security_scanner.py --target . --output security_report.json
+
+      - name: "📊 Dashboard-a Nəticəni Göndər (Webhook)"
+        if: always()
+        env:
+          DASHBOARD_URL: ${{ secrets.DASHBOARD_URL }}
+          DASHBOARD_API_KEY: ${{ secrets.DASHBOARD_API_KEY }}
+        run: |
+          if [ -f normalized_report.json ] && [ -n "$DASHBOARD_URL" ]; then
+            # Prepare payload with git info and scan status
+            export SCAN_STATUS="PASSED"
+            if [ "${{ steps.security_scan.outcome }}" == "failure" ]; then
+              export SCAN_STATUS="BLOCKED"
+            fi
+
+            python3 -c "
+          import json, os, subprocess, sys
+          from datetime import datetime, timezone
+
+          # Load normalized report
+          with open('normalized_report.json', 'r', encoding='utf-8') as f:
+              report = json.load(f)
+
+          findings = report.get('findings', [])
+          stats = report.get('stats', {})
+
+          # Git info
+          commit = subprocess.getoutput('git rev-parse HEAD').strip()
+          branch = subprocess.getoutput('git rev-parse --abbrev-ref HEAD').strip()
+          author = subprocess.getoutput('git log -1 --format=%an').strip()
+          message = subprocess.getoutput('git log -1 --format=%s').strip()
+
+          # Build dashboard payload
+          payload = {
+              'timestamp': datetime.now(timezone.utc).isoformat(),
+              'scanner_version': '1.0.0',
+              'status': os.environ.get('SCAN_STATUS', 'PASSED'),
+              'summary': {
+                  'files_scanned': stats.get('raw_findings_count', 0) + stats.get('unique_findings_count', 0),
+                  'total_findings': stats.get('unique_findings_count', 0),
+                  'critical': stats.get('critical_count', 0),
+                  'high': stats.get('high_count', 0),
+                  'medium': stats.get('medium_count', 0),
+                  'low': stats.get('low_count', 0)
+              },
+              'findings': findings,
+              'git_info': {
+                  'commit': commit,
+                  'branch': branch,
+                  'author': author,
+                  'message': message
+              }
+          }
+
+          # Send to dashboard
+          import requests
+          url = os.environ['DASHBOARD_URL'].rstrip('/') + '/api/webhook'
+          headers = {'X-API-Key': os.environ.get('DASHBOARD_API_KEY', ''), 'Content-Type': 'application/json'}
+          try:
+              r = requests.post(url, json=payload, headers=headers, timeout=10)
+              print(f'Dashboard webhook: {r.status_code} - {r.text}')
+          except Exception as e:
+              print(f'Dashboard webhook failed (non-critical): {e}')
+          "
+          else
+            echo "Skipping dashboard webhook (no report or URL)"
+          fi
 
       - name: "📱 Telegram Alert & Xəbərdarlıq Bildirişi Göndər"
         if: always()
