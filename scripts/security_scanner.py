@@ -159,7 +159,7 @@ class SecurityScanner:
                 pass
 
         # Skanerin öz alətlərini və hesabat fayllarını yoxlamadan çıxarırıq
-        if file_path.name in ['security_scanner.py', 'remediation_engine.py', 'vapt_normalizer.py', 'generate_dashboard.py', 'telegram_notifier.py', 'security_report.json', 'normalized_report.json']:
+        if file_path.name in ['security_scanner.py', 'sca_scanner.py', 'remediation_engine.py', 'vapt_normalizer.py', 'generate_dashboard.py', 'telegram_notifier.py', 'security_report.json', 'normalized_report.json']:
             return
 
         for line_no, line in enumerate(lines, 1):
@@ -215,6 +215,20 @@ class SecurityScanner:
                     if file_path.suffix in IGNORED_EXTENSIONS:
                         continue
                     self.scan_file_content(file_path)
+
+        # ─── SCA Skanı (Üçüncü Tərəf Kitabxana Zəiflikləri) ───────────
+        if self.target_path.is_dir():
+            try:
+                scripts_dir = Path(__file__).resolve().parent
+                if str(scripts_dir) not in sys.path:
+                    sys.path.insert(0, str(scripts_dir))
+                from sca_scanner import SCAScanner
+                sca = SCAScanner(target_dir=str(self.target_path))
+                sca_findings = sca.scan()
+                if sca_findings:
+                    self.findings.extend(sca_findings)
+            except Exception as e:
+                print(f"\n[!] SCA skanı zamanı xəta: {e}\n")
 
         self.generate_report()
         return self.evaluate_results()
